@@ -1,5 +1,7 @@
 # Telegram 响应慢问题排查与修复记录
 
+> 历史文档说明：本文保留的是旧运行链排障记录。若文中出现 `plugins/first-party/predict/...`，在当前 `predictcat` 仓库中应映射为 `services/polymarket/...`；当前环境变量入口也已从宿主仓库路径切到仓库根 `.env` / 服务局部 `.env`。
+
 ## 问题现象
 - 点击 Telegram 按钮后主菜单不弹出或延迟严重
 - 日志大量 `429 Too Many Requests: retry after 60`
@@ -89,7 +91,7 @@ orderbook: {
 4. **杀死旧进程重启**
    ```bash
    pkill -9 -f "bot.js"
-   cd "$PROJECT_ROOT/plugins/first-party/predict/services/polymarket"
+   cd "$PROJECT_ROOT/services/polymarket"
    node bot.js > logs/stdout.log 2>&1 &
    ```
 
@@ -98,7 +100,7 @@ orderbook: {
 - 恢复命令：
   ```bash
   cd /tmp && mkdir old_backup && cd old_backup
-  tar -xzf /path/to/备份_20251211_101124.tar.gz plugins/first-party/predict/services/polymarket/
+  tar -xzf /path/to/备份_20251211_101124.tar.gz services/polymarket/
   ```
 
 ## 教训总结

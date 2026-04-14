@@ -1,6 +1,9 @@
 # 信号缓存与清理策略：配置评估与执行方案
+
+> 历史文档说明：本文形成于独立仓库拆分之前。原文中的 `plugins/first-party/predict/...` 路径仅代表旧仓库位置；在当前 `predictcat` 仓库中，对应路径统一映射为 `services/polymarket/...`。
+
 时间：2025-12-17
-范围：`plugins/first-party/predict/services/polymarket` 内的信号检测、市场数据与翻译缓存
+范围：`services/polymarket` 内的信号检测、市场数据与翻译缓存
 
 ## 1. 目标与原则
 - 保证套利/风控信号的新鲜度，优先时效再追求覆盖面。
@@ -48,12 +51,12 @@
 - 回滚路径：保留原参数为环境变量/配置项，直接回退为当前值（详见代码中的默认配置）。
 
 ## 6. 代码触点清单
-- `plugins/first-party/predict/services/polymarket/signals/arbitrage/detector.js`
-- `plugins/first-party/predict/services/polymarket/signals/orderbook/detector.js`
-- `plugins/first-party/predict/services/polymarket/signals/price-spike/detector.js`
-- `plugins/first-party/predict/services/polymarket/signals/new-market/detector.js`
-- `plugins/first-party/predict/services/polymarket/utils/marketData.js`
-- `plugins/first-party/predict/services/polymarket/translation/cache.js`
-- `plugins/first-party/predict/services/polymarket/bot.js`
+- `services/polymarket/signals/arbitrage/detector.js`
+- `services/polymarket/signals/orderbook/detector.js`
+- `services/polymarket/signals/price-spike/detector.js`
+- `services/polymarket/signals/new-market/detector.js`
+- `services/polymarket/utils/marketData.js`
+- `services/polymarket/translation/cache.js`
+- `services/polymarket/bot.js`
 
 以上为落地执行的最小闭环文档，可直接据此按步骤修改并联调。***

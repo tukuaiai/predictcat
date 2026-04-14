@@ -7,10 +7,11 @@
 | 文档 | 用途 | 状态 |
 |------|------|------|
 | `architecture.md` | 项目总体架构概览 | 活跃 |
+| `predict_dataset_first_blueprint.md` | 预测市场 dataset-first 重构蓝图 | 活跃 |
 | `deployment.md` | 部署与运行说明 | 活跃 |
-| `polymarket_repos_analysis.md` | Polymarket 生态仓库调研摘要 | 活跃 |
-| `polymarket_repos_analysis_detailed.md` | Polymarket 生态仓库详细分析 | 活跃 |
-| `polymarket_repos_analysis_flat.md` | 平铺版调研记录 | 活跃 |
+| `polymarket_repos_analysis.md` | Polymarket 生态仓库调研摘要 | 历史参考 |
+| `polymarket_repos_analysis_detailed.md` | Polymarket 生态仓库详细分析 | 历史参考 |
+| `polymarket_repos_analysis_flat.md` | 平铺版调研记录 | 历史参考 |
 
 ## 历史执行文档
 
@@ -44,3 +45,4 @@
 
 - 若文档中出现旧仓库路径，请按“历史上下文”理解
 - 当前结构与运行入口以仓库根 `README.md`、根 `AGENTS.md` 和 `src/predict/service_entry.py` 为准
+- 若要继续推进 `Polymarket / Kalshi / Binance U` 数据主链，先读 `predict_dataset_first_blueprint.md`

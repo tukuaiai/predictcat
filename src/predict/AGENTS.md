@@ -8,7 +8,7 @@
 - `registry.py`：source / dataset / legacy 真相矩阵
 - `service_entry.py`：`plan / doctor / audit` 统一入口
 - `runtime/`：运行时探针与审计摘要
-- `sources/`：Polymarket / Kalshi 来源适配层
+- `sources/`：Polymarket / Kalshi 主来源与 Binance U 参考市场适配层
 - `storage/`：落地层占位
 - `validators/`：质量门禁占位
 - `datasets/`：未来 dataset 单元落点
@@ -18,4 +18,5 @@
 - 新增长期能力优先改 `registry.py`，先冻结契约，再补实现
 - 这里保持 host-agnostic，不绑定具体宿主仓库或读出口
 - 不要把 legacy Bot 行为复制进这里
+- `Binance U` 只作为参考市场与因子对齐来源，不在这里承载下单执行逻辑
 - 注释、文档与输出文本使用中文；标识符使用英文

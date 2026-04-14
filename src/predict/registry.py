@@ -56,10 +56,37 @@ SOURCES: tuple[SourceDefinition, ...] = (
     SourceDefinition("kalshi_rest", "kalshi", "rest", "市场、事件、订单簿与基础元数据"),
     SourceDefinition("kalshi_ws", "kalshi", "websocket", "实时 market data"),
     SourceDefinition("kalshi_historical", "kalshi", "rest", "historical markets / trades / orders / candlesticks"),
+    SourceDefinition("binance_um_rest", "binance", "rest", "U 本位合约参考价格、资金费率、持仓量"),
+    SourceDefinition("binance_um_ws", "binance", "websocket", "U 本位合约实时行情与 book ticker"),
 )
 
 
 DATASETS: tuple[DatasetDefinition, ...] = (
+    DatasetDefinition(
+        "raw_http_snapshot",
+        "raw",
+        "predict",
+        "append_only",
+        "snapshot",
+        (
+            "polymarket_gamma",
+            "polymarket_clob",
+            "polymarket_data_api",
+            "kalshi_rest",
+            "kalshi_historical",
+            "binance_um_rest",
+        ),
+        "原始 HTTP 拉取落盘；按 source_id / resource / partition_date 保留重放证据。",
+    ),
+    DatasetDefinition(
+        "raw_ws_event",
+        "raw",
+        "predict",
+        "append_only",
+        "event_driven",
+        ("polymarket_ws", "kalshi_ws", "binance_um_ws"),
+        "原始 WebSocket 消息日志；用于断点续采、回放与审计。",
+    ),
     DatasetDefinition(
         "event_snapshot",
         "canonical",
@@ -169,6 +196,33 @@ DATASETS: tuple[DatasetDefinition, ...] = (
         "Kalshi 官方历史 K 线。",
     ),
     DatasetDefinition(
+        "binance_um_price_history",
+        "canonical",
+        "predict",
+        "append_only",
+        "timeseries",
+        ("binance_um_rest", "binance_um_ws"),
+        "Binance U 本位合约价格、标记价与基差参考序列。",
+    ),
+    DatasetDefinition(
+        "binance_um_funding_rate_history",
+        "canonical",
+        "predict",
+        "append_only",
+        "timeseries",
+        ("binance_um_rest",),
+        "Binance U 本位合约资金费率历史。",
+    ),
+    DatasetDefinition(
+        "binance_um_open_interest_history",
+        "canonical",
+        "predict",
+        "append_only",
+        "timeseries",
+        ("binance_um_rest",),
+        "Binance U 本位合约持仓量历史。",
+    ),
+    DatasetDefinition(
         "cross_venue_market_link_dim",
         "projection",
         "predict",
@@ -183,7 +237,7 @@ DATASETS: tuple[DatasetDefinition, ...] = (
         "predict",
         "rebuild",
         "daily",
-        ("polymarket_gamma", "kalshi_rest"),
+        ("polymarket_gamma", "kalshi_rest", "binance_um_rest"),
         "预测市场到 Binance U 本位合约的映射维表。",
     ),
     DatasetDefinition(
@@ -192,7 +246,13 @@ DATASETS: tuple[DatasetDefinition, ...] = (
         "predict",
         "rebuild",
         "15m_1h_4h_1d",
-        ("polymarket_clob", "polymarket_data_api", "kalshi_historical"),
+        (
+            "polymarket_clob",
+            "polymarket_data_api",
+            "kalshi_historical",
+            "binance_um_rest",
+            "binance_um_ws",
+        ),
         "统一研究面板与因子承载对象。",
     ),
 )
